@@ -1,6 +1,6 @@
 # Ex-5-RECOGNITION-OF-THE-GRAMMAR-anb-where-n-10-USING-YACC
 RECOGNITION OF THE GRAMMAR(anb where n>=10) USING YACC
-# Date:
+
 # Aim:
 To write a YACC program to recognize the grammar anb where n>=10.
 # ALGORITHM
@@ -13,51 +13,67 @@ To write a YACC program to recognize the grammar anb where n>=10.
 7.	Compile these with the C compiler as gcc lex.yy.c y.tab.c
 8.	Enter a string as input and it is identified as valid or invalid.
 # PROGRAM:
+L.FILE
 ```
 %{
 #include "y.tab.h"
 %}
 
 %%
-a    { return A; }  // Recognize 'a' as token A
-b    { return B; }  // Recognize 'b' as token B
-.    { return 0; }  // End of input
+a   { return A; }
+b   { return B; }
+\n  { return '\n'; }
+.   { return yytext[0]; }
 %%
 
 int yywrap() {
     return 1;
 }
+
 ```
-# Grammar.y:
+
+Y.FILE
 ```
 %{
 #include <stdio.h>
-int yylex(void);
-void yyerror(const char *s);
+#include <stdlib.h>
+int count = 0;  // to count number of a's
 %}
 
 %token A B
 
 %%
-S   : A A A A A A A A A A B    { printf("Valid string\n"); }
-    | A S B                    { printf("Valid string\n"); }
+start:
+    sequence B '\n' {
+        if (count >= 10) {
+            printf("Valid string: %d a's followed by b\n", count);
+        } else {
+            printf("Invalid: Less than 10 a's\n");
+        }
+        count = 0; // reset for next input
+    }
     ;
 
+sequence:
+    A { count++; }
+  | sequence A { count++; }
+  ;
 %%
 
 int main() {
-    printf("Enter a string:\n");
-    yyparse();
-    return 0;
+    printf("Enter a string (aⁿb where n >= 10):\n");
+    return yyparse();
 }
 
-void yyerror(const char *s) {
-    printf("Invalid string\n");
+void yyerror(const char *msg) {
+    printf("Syntax error: %s\n", msg);
 }
+
 ```
 # OUTPUT
 
-<img width="721" height="190" alt="image" src="https://github.com/user-attachments/assets/941778a2-39fd-46e9-a443-78d9a502b52d" />
+<img width="815" height="594" alt="image" src="https://github.com/user-attachments/assets/e51e0d4f-7a91-41b3-a3e4-ba17b67c44bd" />
+
 
 # RESULT
 The YACC program to recognize the grammar anb where n>=10 is executed successfully and the output is verified.
