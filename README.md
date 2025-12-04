@@ -34,6 +34,7 @@ int yywrap() {
 
 Y.FILE
 ```
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -72,7 +73,7 @@ void yyerror(const char *msg) {
 ```
 # OUTPUT
 
-<img width="815" height="594" alt="image" src="https://github.com/user-attachments/assets/e51e0d4f-7a91-41b3-a3e4-ba17b67c44bd" />
+<img width="805" height="619" alt="image" src="https://github.com/user-attachments/assets/738c9214-dcdb-4231-b55c-d0a33e21b203" />
 
 
 # RESULT
